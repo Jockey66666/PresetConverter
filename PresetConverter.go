@@ -91,12 +91,14 @@ func processFunction(presetFileNames []string) int {
 			count++
 		}
 
-		// meta.json
-		metaJSON := createMeta(outputPath)
-		SaveFile(outputPath+"/meta.json", metaJSON)
+		if globalDebug == false {
+			// meta.json
+			metaJSON := createMeta(outputPath)
+			SaveFile(outputPath+"/meta.json", metaJSON)
 
-		// thumbnail.png
-		copyThumbnail(outputPath)
+			// thumbnail.png
+			copyThumbnail(outputPath)
+		}
 
 		//fmt.Println(string(dataJSON))
 	}

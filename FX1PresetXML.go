@@ -20,13 +20,16 @@ type FX1Preset struct {
 
 // FxStruct : fx struct
 type FxStruct struct {
-	Text       string `xml:",chardata"`
-	Active     string `xml:"active,attr"`
-	Selected   string `xml:"selected,attr"`
-	Uniqueid   string `xml:"uniqueid,attr"`
-	Descriptor string `xml:"descriptor,attr"`
-	AmpID      string `xml:"ampId,attr"`
-	Parameters struct {
+	Text         string `xml:",chardata"`
+	Active       string `xml:"active,attr"`
+	Selected     string `xml:"selected,attr"`
+	Uniqueid     string `xml:"uniqueid,attr"`
+	Descriptor   string `xml:"descriptor,attr"`
+	AmpID        string `xml:"ampId,attr"`
+	DistortionID string `xml:"distortionId,attr"`
+	DelayID      string `xml:"delayId,attr"`
+	DodID        string `xml:"modId,attr"`
+	Parameters   struct {
 		Text      string `xml:",chardata"`
 		Parameter []struct {
 			Text  string `xml:",chardata"`

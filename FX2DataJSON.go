@@ -31,6 +31,9 @@ type SigpathElement struct {
 	ID               string         `json:"id"`
 	Param            []SigpathParam `json:"param"`
 	Selected         bool           `json:"selected"`
+	DistortionID     string         `json:"distortionId,omitempty"`
+	DelayID          string         `json:"delayId,omitempty"`
+	DodID            string         `json:"modId,omitempty"`
 }
 
 // EmbeddedAmpData : ampdata

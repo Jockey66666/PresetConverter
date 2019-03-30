@@ -13,7 +13,6 @@ func preConvert(fx FxStruct, sigpathElement *SigpathElement) (err error) {
 	switch id {
 	case "biasamp":
 		sigpathElement.AmpType = "AmpHead"
-		sigpathElement.AmpID = fx.AmpID
 	default:
 		// do nothing
 	}
@@ -40,10 +39,16 @@ func ConvertToFx2Data(fx1Preset FX1Preset, fx2Preset Fx2PresetData) []byte {
 		var sigpathElement SigpathElement
 		var err error
 
+		// pre convert
+		err = preConvert(fx, &sigpathElement)
+
+		if err != nil {
+			continue
+		}
+
+		// convert start
 		sigpathElement.ModulePresetName = ""
 		sigpathElement.Active, err = strconv.ParseBool(fx.Active)
-
-		err = preConvert(fx, &sigpathElement)
 
 		if err != nil {
 			continue
@@ -54,10 +59,17 @@ func ConvertToFx2Data(fx1Preset FX1Preset, fx2Preset Fx2PresetData) []byte {
 		sigpathElement.ID = fx.Uniqueid
 		sigpathElement.Selected, err = strconv.ParseBool(fx.Selected)
 
+		// omitempty
+		sigpathElement.AmpID = fx.AmpID
+		sigpathElement.DistortionID = fx.DistortionID
+		sigpathElement.DelayID = fx.DelayID
+		sigpathElement.DodID = fx.DodID
+
 		if err != nil {
 			continue
 		}
 
+		// copy parameters
 		for _, param := range fx.Parameters.Parameter {
 
 			var fx2Param SigpathParam
@@ -79,6 +91,7 @@ func ConvertToFx2Data(fx1Preset FX1Preset, fx2Preset Fx2PresetData) []byte {
 		// convert to json and append to sigpath
 		fx2Preset.SigPath = append(fx2Preset.SigPath, sigpathElement)
 
+		// post convert
 		err = postConvert(fx, &fx2Preset)
 		if err != nil {
 			continue
