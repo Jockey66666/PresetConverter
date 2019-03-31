@@ -3,8 +3,8 @@
 ## Prerequisite
 
 * [uuid](https://github.com/google/uuid)
-* (gojsonq)[https://github.com/thedevsaddam/gojsonq]
-* (gjson)[https://github.com/tidwall/gjson]
+* [gojsonq](https://github.com/thedevsaddam/gojsonq)
+* [gjson](https://github.com/tidwall/gjson)
 
 ## Install package
 
