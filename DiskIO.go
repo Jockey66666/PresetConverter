@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 // OpenFile : read file byte
@@ -42,5 +44,42 @@ func CreateDirIfNotExist(dir string) {
 		if err != nil {
 			panic(err)
 		}
+	}
+}
+
+// GetSubFolderList : get subfolder list, depth = 1
+func GetSubFolderList(files *[]string) filepath.WalkFunc {
+
+	foundRootDir := false
+	currentDepth := -1
+
+	return func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(0)
+		}
+
+		if foundRootDir {
+
+			if currentDepth < 0 {
+				currentDepth = strings.Count(path, "/")
+			}
+
+			if currentDepth < strings.Count(path, "/") {
+				return filepath.SkipDir
+			}
+		}
+
+		if info.IsDir() {
+
+			if foundRootDir {
+				*files = append(*files, info.Name())
+			} else {
+				foundRootDir = true
+			}
+
+		}
+
+		return nil
 	}
 }
