@@ -11,7 +11,7 @@ import (
 // MigrationCore : mainly convert function
 func MigrationCore(author string, presetSlice []PresetSliceStruct) int {
 	count := 0
-	for _, preset := range presetSlice {
+	for i, preset := range presetSlice {
 
 		// step 1. read fx1 preset xml
 		var data []byte
@@ -37,11 +37,15 @@ func MigrationCore(author string, presetSlice []PresetSliceStruct) int {
 		CreateDirIfNotExist(outputPath)
 
 		// step 3. create data.json
-		dataJSON := ConvertToFx2Data(fx1Preset, preset.PresetName)
+		dataJSON, err := ConvertToFx2Data(fx1Preset, preset.PresetName)
 
-		if len(dataJSON) > 0 {
+		if len(dataJSON) > 0 && err == nil {
 			//SaveFile(outputPath+"/data.json", dataJSON)
 			count++
+			presetSlice[i].MigrateResult = 1 // success
+		} else {
+			fmt.Println(err, "migrate", preset.PresetPath, "failed")
+			presetSlice[i].MigrateResult = -1 // failed
 		}
 
 		// step 4. create meta.json

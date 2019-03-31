@@ -33,7 +33,7 @@ func postConvert(fx FxStruct, fx2Preset *Fx2PresetData) (err error) {
 }
 
 // ConvertToFx2Data : convert fx1 to fx2
-func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) []byte {
+func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) (js []byte, err error) {
 
 	// init fx2 preset
 	var fx2Preset Fx2PresetData
@@ -46,13 +46,12 @@ func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) []byte {
 	// sigpath
 	for _, fx := range fx1Preset.Fxs.Fx {
 		var sigpathElement SigpathElement
-		var err error
 
 		// pre convert
 		err = preConvert(fx, &sigpathElement)
 
 		if err != nil {
-			continue
+			return
 		}
 
 		// convert start
@@ -60,7 +59,7 @@ func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) []byte {
 		sigpathElement.Active, err = strconv.ParseBool(fx.Active)
 
 		if err != nil {
-			continue
+			return
 		}
 
 		sigpathElement.DspID = fx.Descriptor
@@ -75,7 +74,7 @@ func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) []byte {
 		sigpathElement.DodID = fx.DodID
 
 		if err != nil {
-			continue
+			return
 		}
 
 		// copy parameters
@@ -85,13 +84,13 @@ func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) []byte {
 			fx2Param.ID, err = strconv.Atoi(param.Index)
 
 			if err != nil {
-				continue
+				return
 			}
 
 			fx2Param.Value, err = strconv.ParseFloat(param.Value, 64)
 
 			if err != nil {
-				continue
+				return
 			}
 
 			sigpathElement.Param = append(sigpathElement.Param, fx2Param)
@@ -103,10 +102,10 @@ func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) []byte {
 		// post convert
 		err = postConvert(fx, &fx2Preset)
 		if err != nil {
-			continue
+			return
 		}
 	}
 
-	js, _ := json.MarshalIndent(fx2Preset, "", "    ")
-	return js
+	js, _ = json.MarshalIndent(fx2Preset, "", "    ")
+	return
 }

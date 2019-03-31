@@ -43,12 +43,14 @@ func PreMigration() (InputBankListJSON, []PresetSliceStruct, map[string]string) 
 		uuid := strings.ToUpper(uuid.Must(uuid.NewRandom()).String())
 		CreateDirIfNotExist("temp/" + uuid)
 		bankTable[uuid] = bank.Name
+		bankTable[bank.ID] = bank.Name
 
 		for _, preset := range presetJs.LivePresets {
 			p := PresetSliceStruct{
-				BankUUID:   uuid,
-				PresetName: preset.PresetName,
-				PresetPath: inputBanks.Src + "/" + bank.ID + "/" + preset.PresetName + ".preset",
+				BankUUID:    uuid,
+				PresetName:  preset.PresetName,
+				PresetPath:  inputBanks.Src + "/" + bank.ID + "/" + preset.PresetName + ".preset",
+				OldBankUUID: bank.ID,
 			}
 
 			presetSlice = append(presetSlice, p)

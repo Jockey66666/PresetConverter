@@ -102,7 +102,7 @@ func main() {
 	fmt.Println(total, "presets migrated")
 
 	// post migration
-	PostMigration(inputBanks.Dst, bankTable)
+	PostMigration(inputBanks.Dst, bankTable, presetSlice)
 
 	/*
 		presetFileNames := []string{}
