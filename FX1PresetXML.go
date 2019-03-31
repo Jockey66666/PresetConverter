@@ -67,7 +67,7 @@ type LIVESplitter struct {
 	} `xml:"Fxs"`
 }
 
-// LiveMixer : mixer
+// LIVEMixer : mixer
 type LIVEMixer struct {
 	Text       string `xml:",chardata"`
 	Active     string `xml:"active,attr"`

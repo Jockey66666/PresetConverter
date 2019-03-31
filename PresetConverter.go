@@ -1,20 +1,38 @@
 package main
 
+/*
+
+```
+
+├── GlobalPresets
+|   ├── bank.json
+|   └── (banks)
+└── MigrationTool
+    ├── report
+    |    └── MigrationReport_MMDD_N.json
+    ├── temp
+    |    ├── bank.json (output)
+    |    └── (banks) (output)
+    |
+    ├── input_bank_list.json (input)
+    ├── PresetConverterWin.exe
+    └── PresetConverterMac
+
+```
+
+*/
+
 import (
 	"encoding/json"
-	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"runtime"
-	"strings"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 //var globalPresetName = "Change amp"
 var globalPresetName = "Sample"
-var globalDebug = true
+var globalDebug = false
 
 func createMeta(path string) []byte {
 	var metaJSON Fx2PresetMeta
@@ -52,83 +70,27 @@ func copyThumbnail(path string) {
 	}
 }
 
-func processFunction(presetFileNames []string) int {
-	count := 0
-	for _, presetFileName := range presetFileNames {
-		var fx2PresetData Fx2PresetData
-		fx2PresetData.Bpm = 120
-		fx2PresetData.Version = "1.8"
-		fx2PresetData.Scenes.LatestEditedSceneSlot = -1
-		fx2PresetData.Scenes.Slot = make([]interface{}, 0)
-		fx2PresetData.Name = globalPresetName
-
-		var data []byte
-		var err error
-		data, err = OpenFile(presetFileName)
-
-		if err != nil {
-			continue
-		}
-
-		var fx1Preset FX1Preset
-		err = xml.Unmarshal(data, &fx1Preset)
-
-		if err != nil {
-			fmt.Printf("error: %v", err)
-			continue
-		}
-
-		uuid := uuid.Must(uuid.NewRandom())
-
-		outputPath := "output/" + strings.ToUpper(uuid.String())
-		CreateDirIfNotExist(outputPath)
-
-		// data.json
-		dataJSON := ConvertToFx2Data(fx1Preset, fx2PresetData)
-
-		if len(dataJSON) > 0 {
-			SaveFile(outputPath+"/data.json", dataJSON)
-			count++
-		}
-
-		if globalDebug == false {
-			// meta.json
-			metaJSON := createMeta(outputPath)
-			SaveFile(outputPath+"/meta.json", metaJSON)
-
-			// thumbnail.png
-			copyThumbnail(outputPath)
-		}
-
-		//fmt.Println(string(dataJSON))
-	}
-
-	return count
-}
-
 func main() {
 	t := time.Now()
+	defer func() {
+		elapsed := time.Since(t)
+		fmt.Println("")
+		fmt.Println("elapsed:", elapsed)
+	}()
 
-	// input file
+	// pre migration
+	inputBanks, presetSlice, bankTable := PreMigration()
 
-	presetFileNames := []string{}
-
-	i := 0
-	for i < 1 {
-		presetFileNames = append(presetFileNames, "input/"+globalPresetName+".Preset")
-		i++
-	}
+	// migration
+	cpu := runtime.NumCPU()
+	num := len(presetSlice)
 
 	countChannel := make(chan int)
-
-	cpu := runtime.NumCPU()
-	num := len(presetFileNames)
-
 	for i := 0; i < cpu; i++ {
 		from := i * num / cpu
 		to := (i + 1) * num / cpu
 		go func() {
-			countChannel <- processFunction(presetFileNames[from:to])
+			countChannel <- MigrationCore(inputBanks.Author, presetSlice[from:to])
 		}()
 	}
 
@@ -137,7 +99,37 @@ func main() {
 		total += <-countChannel
 	}
 
-	elapsed := time.Since(t)
-	fmt.Println(total, "preset migrated.")
-	fmt.Println("elapsed:", elapsed)
+	fmt.Println(total, "presets migrated")
+
+	// post migration
+	PostMigration(inputBanks.Dst, bankTable)
+
+	/*
+		presetFileNames := []string{}
+
+		i := 0
+		for i < 1 {
+			presetFileNames = append(presetFileNames, "input/"+globalPresetName+".Preset")
+			i++
+		}
+
+		countChannel := make(chan int)
+
+		cpu := runtime.NumCPU()
+		num := len(presetFileNames)
+
+		for i := 0; i < cpu; i++ {
+			from := i * num / cpu
+			to := (i + 1) * num / cpu
+			go func() {
+				countChannel <- processFunction(presetFileNames[from:to])
+			}()
+		}
+
+		total := 0
+		for i := 0; i < cpu; i++ {
+			total += <-countChannel
+		}
+
+	*/
 }

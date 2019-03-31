@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -48,7 +49,15 @@ func CreateDirIfNotExist(dir string) {
 }
 
 // GetSubFolderList : get subfolder list, depth = 1
+// usage: filepath.Walk(root, GetSubFolderList(&list))
 func GetSubFolderList(files *[]string) filepath.WalkFunc {
+
+	var slash string
+	if runtime.GOOS == "windows" {
+		slash = "\\"
+	} else {
+		slash = "/"
+	}
 
 	foundRootDir := false
 	currentDepth := -1
@@ -62,10 +71,10 @@ func GetSubFolderList(files *[]string) filepath.WalkFunc {
 		if foundRootDir {
 
 			if currentDepth < 0 {
-				currentDepth = strings.Count(path, "/")
+				currentDepth = strings.Count(path, slash)
 			}
 
-			if currentDepth < strings.Count(path, "/") {
+			if currentDepth < strings.Count(path, slash) {
 				return filepath.SkipDir
 			}
 		}
@@ -82,4 +91,24 @@ func GetSubFolderList(files *[]string) filepath.WalkFunc {
 
 		return nil
 	}
+}
+
+// RemoveContents : remove directory contents but not delete it
+func RemoveContents(dir string) error {
+	d, err := os.Open(dir)
+	if err != nil {
+		return err
+	}
+	defer d.Close()
+	names, err := d.Readdirnames(-1)
+	if err != nil {
+		return err
+	}
+	for _, name := range names {
+		err = os.RemoveAll(filepath.Join(dir, name))
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

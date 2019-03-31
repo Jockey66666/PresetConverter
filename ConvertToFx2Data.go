@@ -32,7 +32,16 @@ func postConvert(fx FxStruct, fx2Preset *Fx2PresetData) (err error) {
 	return
 }
 
-func ConvertToFx2Data(fx1Preset FX1Preset, fx2Preset Fx2PresetData) []byte {
+// ConvertToFx2Data : convert fx1 to fx2
+func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) []byte {
+
+	// init fx2 preset
+	var fx2Preset Fx2PresetData
+	fx2Preset.Bpm = 120
+	fx2Preset.Version = "1.8"
+	fx2Preset.Scenes.LatestEditedSceneSlot = -1
+	fx2Preset.Scenes.Slot = make([]interface{}, 0)
+	fx2Preset.Name = presetName
 
 	// sigpath
 	for _, fx := range fx1Preset.Fxs.Fx {
