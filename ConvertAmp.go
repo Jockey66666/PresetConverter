@@ -10,21 +10,21 @@ import (
 )
 
 // HandleAmp : Amp converter
-func HandleAmp(fx FxElement, fx2Preset *Fx2PresetData) {
+func HandleAmp(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpData) {
 
 	sigpathElement := GetSigpathElement(fx)
 	sigpathElement.AmpType = "AmpHead"
 	sigpathElement.AmpID = fx.AmpID
-	fx2Preset.SigPath = append(fx2Preset.SigPath, sigpathElement)
+	*sigpath = append(*sigpath, sigpathElement)
 
-	err := splitAmpHeadCab(fx, fx2Preset)
+	err := splitAmpHeadCab(fx, sigpath, embedded)
 
 	if err != nil {
 		fmt.Println("convert amp error", err)
 	}
 }
 
-func splitAmpHeadCab(fx FxElement, fx2Preset *Fx2PresetData) (err error) {
+func splitAmpHeadCab(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpData) (err error) {
 
 	if len(fx.Ampdata) > 0 {
 		//embedded data
@@ -47,11 +47,10 @@ func splitAmpHeadCab(fx FxElement, fx2Preset *Fx2PresetData) (err error) {
 		ampData.MetaData = m["metaData"]
 		ampData.PanelData = m["panelData"]
 
-		fx2Preset.Embedded = append(fx2Preset.Embedded, ampData)
+		*embedded = append(*embedded, ampData)
 
 		// cab sigpath
 		var sigpathElement SigpathElement
-		sigpathElement.ModulePresetName = ""
 		sigpathElement.Active, err = strconv.ParseBool(fx.Active)
 
 		if err != nil {
@@ -91,7 +90,7 @@ func splitAmpHeadCab(fx FxElement, fx2Preset *Fx2PresetData) (err error) {
 			return true
 		})
 
-		fx2Preset.SigPath = append(fx2Preset.SigPath, sigpathElement)
+		*sigpath = append(*sigpath, sigpathElement)
 	}
 
 	return

@@ -7,7 +7,6 @@ import (
 
 // GetSigpathElement : get single sigpath element from xml element
 func GetSigpathElement(fx FxElement) (sigpathElement SigpathElement) {
-	sigpathElement.ModulePresetName = ""
 	sigpathElement.Active, _ = strconv.ParseBool(fx.Active)
 	sigpathElement.DspID = fx.Descriptor
 	sigpathElement.DspID = strings.Replace(sigpathElement.DspID, "LIVE.", "FX2.", 1)
@@ -26,14 +25,14 @@ func GetSigpathElement(fx FxElement) (sigpathElement SigpathElement) {
 }
 
 // ConvertFx : for <Fx>
-func ConvertFx(fx FxElement, fx2Preset *Fx2PresetData) {
+func ConvertFx(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpData) {
 
 	fxID := strings.ToLower(fx.Descriptor)
 	switch fxID {
 	case "biasamp":
-		HandleAmp(fx, fx2Preset)
+		HandleAmp(fx, sigpath, embedded)
 	default:
 		sigpathElement := GetSigpathElement(fx)
-		fx2Preset.SigPath = append(fx2Preset.SigPath, sigpathElement)
+		*sigpath = append(*sigpath, sigpathElement)
 	}
 }

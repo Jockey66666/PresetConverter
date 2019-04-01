@@ -12,11 +12,11 @@ import (
 	"github.com/google/uuid"
 )
 
-func createMeta(path string) []byte {
+func createMeta(path string, presetName string) []byte {
 	var metaJSON Fx2PresetMeta
 	metaJSON.Author = ""
 	metaJSON.IsNew = true
-	metaJSON.Name = "Sample"
+	metaJSON.Name = presetName
 
 	currentTime := time.Now()
 	metaJSON.AddTime = currentTime.Format(time.RFC3339Nano)
@@ -93,7 +93,7 @@ func MigrationCore(author string, presetSlice []PresetSliceStruct) int {
 		}
 
 		// step 4. create meta.json
-		metaJSON := createMeta(outputPath)
+		metaJSON := createMeta(outputPath, preset.PresetName)
 		SaveFile(outputPath+"/meta.json", metaJSON)
 		// step 5. copy thumbnail.png
 		copyThumbnail(outputPath)

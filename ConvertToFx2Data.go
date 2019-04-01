@@ -23,18 +23,32 @@ func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) (js []byte, err er
 	// init fx2 preset
 	fx2Preset := initFx2Preset(presetName)
 
-	// sigpath
+	/*
+		only one group splitter and mixer for dual path
+	*/
+
+	dualPath := make(map[string]FxElement)
+
 	for _, fx := range fx1Preset.Fxs.FxElements {
 
 		elementName := strings.ToLower(fx.XMLName.Local)
 
 		switch elementName {
 		case "fx":
-			ConvertFx(fx, &fx2Preset)
+			ConvertFx(fx, &fx2Preset.SigPath, &fx2Preset.Embedded)
 		case "live.splitter", "splitter":
-			fmt.Println(fx.Descriptor)
+			dualPath["splitter"] = fx
 		case "live.mixer", "mixer":
-			fmt.Println(fx.Descriptor)
+
+			// check splitter is exist
+			_, exists := dualPath["splitter"]
+			if !exists {
+				fmt.Println(presetName, "miss splitter?")
+				return
+			}
+
+			dualPath["mixer"] = fx
+			ConvertDualPath(dualPath, &fx2Preset.SigPath, &fx2Preset.Embedded)
 		default:
 			fmt.Println("unknown fx element.")
 		}
