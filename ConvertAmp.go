@@ -9,8 +9,22 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-// SplitAmpHeadCab : split amp to amp head and amp cab
-func SplitAmpHeadCab(fx FxStruct, fx2Preset *Fx2PresetData) (err error) {
+// HandleAmp : Amp converter
+func HandleAmp(fx FxElement, fx2Preset *Fx2PresetData) {
+
+	sigpathElement := GetSigpathElement(fx)
+	sigpathElement.AmpType = "AmpHead"
+	sigpathElement.AmpID = fx.AmpID
+	fx2Preset.SigPath = append(fx2Preset.SigPath, sigpathElement)
+
+	err := splitAmpHeadCab(fx, fx2Preset)
+
+	if err != nil {
+		fmt.Println("convert amp error", err)
+	}
+}
+
+func splitAmpHeadCab(fx FxElement, fx2Preset *Fx2PresetData) (err error) {
 
 	if len(fx.Ampdata) > 0 {
 		//embedded data
