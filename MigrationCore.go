@@ -49,7 +49,7 @@ func copyThumbnail(path string) {
 }
 
 // MigrationCore : mainly convert function
-func MigrationCore(author string, presetSlice []PresetSliceStruct) int {
+func MigrationCore(checker LicenseChecker, author string, presetSlice []PresetSliceStruct) int {
 	count := 0
 	for i, preset := range presetSlice {
 
@@ -93,7 +93,7 @@ func MigrationCore(author string, presetSlice []PresetSliceStruct) int {
 		}
 
 		// step 4. create meta.json
-		metaJSON := createMeta(outputPath, preset.PresetName)
+		metaJSON := CreateMeta(outputPath, preset.PresetName, author, checker)
 		SaveFile(outputPath+"/meta.json", metaJSON)
 		// step 5. copy thumbnail.png
 		copyThumbnail(outputPath)

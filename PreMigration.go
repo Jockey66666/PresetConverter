@@ -60,6 +60,18 @@ func PreMigration() (InputBankListJSON, []PresetSliceStruct, map[string]string) 
 	// step 4. clear dangling fx2 preset folder
 	clearDanglingBank(inputBanks.Dst)
 
+	// step 5. check fxlist is exist
+	_, err = os.Stat(inputBanks.Dst + "/../fxlist.json")
+	if err != nil {
+		os.Exit(ErrorOpenBankListFailed)
+	}
+
+	// step 6. check amplist is exist
+	_, err = os.Stat(inputBanks.Dst + "/../amplist.json")
+	if err != nil {
+		os.Exit(ErrorOpenBankListFailed)
+	}
+
 	return inputBanks, presetSlice, bankTable
 }
 

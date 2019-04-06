@@ -24,6 +24,7 @@ type FxStruct struct {
 	IsPresetFormat       bool     `json:"isPresetFormat,omitempty"`
 	Subtitle             string   `json:"subtitle,omitempty"`
 	LicenseTierReq       *int     `json:"LicenseTierReq,omitempty"`
+	LicenseTierReq2      *int     `json:"licenseTierReq,omitempty"`
 }
 
 // BiasFxJSON : bias fx 2 json file

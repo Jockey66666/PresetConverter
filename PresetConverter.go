@@ -40,6 +40,8 @@ func main() {
 
 	// pre migration
 	inputBanks, presetSlice, bankTable := PreMigration()
+	var checker LicenseChecker
+	checker.Init(inputBanks.Dst + "/../")
 
 	// migration
 	cpu := runtime.NumCPU()
@@ -50,7 +52,7 @@ func main() {
 		from := i * num / cpu
 		to := (i + 1) * num / cpu
 		go func() {
-			countChannel <- MigrationCore(inputBanks.Author, presetSlice[from:to])
+			countChannel <- MigrationCore(checker, inputBanks.Author, presetSlice[from:to])
 		}()
 	}
 

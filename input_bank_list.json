@@ -4,8 +4,16 @@
     "dst": "c:/users/vincent/Documents/PositiveGrid/BIAS_FX2/GlobalPresets",
     "banks" : [        
         {
-            "id" : "B606D598-14C7-EB98-AC80-77A1F114935F",
-            "name" : "bank1"            
+            "id" : "factory",
+            "name" : "Factory Rock"            
+        },
+        {
+            "id" : "factory1",
+            "name" : "Factory Low Gain"            
+        },
+        {
+            "id" : "factory2",
+            "name" : "Artists"            
         }
     ]
 }

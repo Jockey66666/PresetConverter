@@ -37,13 +37,13 @@ func (checker *LicenseChecker) Init(path string) (err error) {
 	checker.packLicenses = make(map[string]int)
 	checker.amp2Licenses = make(map[string]int)
 
-	err = initFx2Map(path+"fxlist.json", checker.fx2Licenses, checker.packLicenses)
+	err = initFx2Map(path+"/fxlist.json", checker.fx2Licenses, checker.packLicenses)
 
 	if err != nil {
 		return
 	}
 
-	err = initAmp2Map(path+"amplist.json", checker.fx2Licenses, checker.amp2Licenses, checker.packLicenses)
+	err = initAmp2Map(path+"/amplist.json", checker.fx2Licenses, checker.amp2Licenses, checker.packLicenses)
 	return
 }
 
@@ -201,8 +201,14 @@ func initAmp2Map(filePath string, fx2Licenses map[string]int, amp2Licenses map[s
 
 	for _, cate := range fxConfig.BiasAMP2 {
 		for _, fx := range cate.AmpList {
-			data := LicenseDecrypt(fx.SigpathDescriptor, fx.DspID)
-			amp2Licenses[fx.DspID] = getLicenseTier(data)
+
+			if fx.LicenseTierReq != nil {
+				amp2Licenses[fx.DspID] = *fx.LicenseTierReq
+			}
+
+			if fx.LicenseTierReq2 != nil {
+				amp2Licenses[fx.DspID] = *fx.LicenseTierReq2
+			}
 
 			initPack(fx, packLicenses)
 		}
