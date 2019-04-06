@@ -47,6 +47,9 @@ type InnerSigPathElement struct {
 type DualPathElement struct {
 	SigPaths []InnerSigPathElement `json:"sigPaths"`
 	Type     string                `json:"type"`
+
+	//middle fx
+	Fx []Fx2Struct `json:"Fx,omitempty"`
 }
 
 // MixerChannel : mixer channels
