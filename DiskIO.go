@@ -31,10 +31,6 @@ func OpenFile(path string) ([]byte, error) {
 
 // SaveFile : save file byte
 func SaveFile(path string, data []byte) error {
-	if globalDebug == true {
-		fmt.Println(string(data))
-		return nil
-	}
 	return ioutil.WriteFile(path, data, 0644)
 }
 

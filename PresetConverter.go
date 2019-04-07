@@ -24,11 +24,10 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"runtime"
 	"time"
 )
-
-var globalDebug = false
 
 func main() {
 	t := time.Now()
@@ -37,6 +36,10 @@ func main() {
 		fmt.Println("")
 		fmt.Println("elapsed:", elapsed)
 	}()
+
+	// process guard, only one instance can be executed.
+	pg := ProcessGuard{Args: os.Args}
+	pg.Guard()
 
 	// pre migration
 	inputBanks, presetSlice, bankTable := PreMigration()
