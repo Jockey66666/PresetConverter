@@ -47,6 +47,7 @@ func getCurrentProcessName(path string) string {
 
 	lastSlash := strings.LastIndex(path, slash)
 	if lastSlash != -1 {
+		os.Chdir(path[:lastSlash])
 		return path[lastSlash+1 : len(path)]
 	}
 
