@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+
+	"github.com/tidwall/gjson"
 )
 
 const (
@@ -58,6 +60,30 @@ func (checker LicenseChecker) GetLicenseMeta(presetPath string) (licenseTierReq 
 
 	// get dspid and ampid
 	sigpathIDs := getSigpathIDs(presetData)
+
+	// check modern vintage
+	for _, embedded := range presetData.Embedded {
+
+		js, err := json.Marshal(embedded.AmpData)
+
+		if err != nil {
+			continue
+		}
+
+		result := gjson.Get(string(js), `sigPath.blocks.items.#[id=="bias.cab2celestion"]#.params.0.value`)
+		if result.IsArray() && len(result.Array()) > 0 {
+			value := result.Array()[0]
+			vintageType := int(value.Num * 1000)
+			switch vintageType {
+			case 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 28, 29, 39:
+				licenseTierReq.ModernVintage = true
+			}
+		}
+
+		if licenseTierReq.ModernVintage == true {
+			break
+		}
+	}
 
 	// compare with license maps
 	for _, id := range sigpathIDs {

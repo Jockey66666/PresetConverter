@@ -29,7 +29,7 @@ func ConvertFx(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpD
 
 	fxID := strings.ToLower(fx.Descriptor)
 	switch fxID {
-	case "biasamp":
+	case "biasamp", "biasamp2":
 		HandleAmp(fx, sigpath, embedded)
 	default:
 		sigpathElement := GetSigpathElement(fx)

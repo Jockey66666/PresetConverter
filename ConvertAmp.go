@@ -31,7 +31,7 @@ func splitAmpHeadCab(fx FxElement, sigpath *[]SigpathElement, embedded *[]Embedd
 		var ampData EmbeddedAmpData
 		ampData.ID = fx.Uniqueid
 		ampData.AmpID = fx.AmpID
-		ampData.EmbeddedType = "BiasAmp"
+		ampData.EmbeddedType = fx.Descriptor
 
 		var extraData interface{}
 		err = json.Unmarshal([]byte(fx.Ampdata), &extraData)
@@ -59,7 +59,7 @@ func splitAmpHeadCab(fx FxElement, sigpath *[]SigpathElement, embedded *[]Embedd
 
 		sigpathElement.AmpType = "AmpCab"
 		sigpathElement.AmpID = fx.AmpID
-		sigpathElement.DspID = "BiasAmp"
+		sigpathElement.DspID = fx.Descriptor
 		sigpathElement.ID = fx.Uniqueid
 		sigpathElement.Selected, err = strconv.ParseBool(fx.Selected)
 
@@ -67,9 +67,18 @@ func splitAmpHeadCab(fx FxElement, sigpath *[]SigpathElement, embedded *[]Embedd
 			return
 		}
 
-		ampDataByte, _ := json.Marshal(ampData.AmpData)
-		query := gojsonq.New().JSONString(string(ampDataByte)).
-			From("sigPath.blocks.items").Where("id", "=", "bias.cab").Only("params")
+		var ampDataByte []byte
+		ampDataByte, err = json.Marshal(ampData.AmpData)
+
+		if err != nil {
+			return
+		}
+
+		ampDataString := string(ampDataByte)
+		query := gojsonq.New().JSONString(ampDataString).
+			From("sigPath.blocks.items").Where("id", "=", "bias.cab").
+			OrWhere("id", "=", "bias.cab2").OrWhere("id", "=", "bias.cab2celestion").
+			OrWhere("id", "=", "bias.IRLoader").Only("params")
 		var queryString []byte
 		queryString, err = json.Marshal(query)
 
