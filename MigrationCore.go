@@ -1,41 +1,18 @@
 package main
 
 import (
-	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/google/uuid"
 )
 
-func createMeta(path string, presetName string) []byte {
-	var metaJSON Fx2PresetMeta
-	metaJSON.Author = ""
-	metaJSON.IsNew = true
-	metaJSON.Name = presetName
-
-	currentTime := time.Now()
-	metaJSON.AddTime = currentTime.Format(time.RFC3339Nano)
-	metaJSON.ModifiedTime = currentTime.Format(time.RFC3339Nano)
-
-	metaJSON.LicenseInfo.Fx2LE = false
-	metaJSON.LicenseInfo.Fx2License = 0
-	metaJSON.LicenseInfo.ExpansionAcoustic = false
-	metaJSON.LicenseInfo.ExpansionBass = false
-	metaJSON.LicenseInfo.ExpansionMetal = false
-	metaJSON.LicenseInfo.ModernVintage = false
-
-	js, _ := json.MarshalIndent(metaJSON, "", "    ")
-	return js
-}
-
 func copyThumbnail(path string) {
 
-	input, err := ioutil.ReadFile("input/thumbnail.png")
+	input, err := ioutil.ReadFile("thumbnail.png")
 	if err != nil {
 		fmt.Println(err)
 		return
