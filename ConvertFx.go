@@ -37,7 +37,20 @@ func ConvertFx(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData
 		HandleDelay(fx, sigpath, embedded)
 	case "biasmodulation":
 		HandleModulation(fx, sigpath, embedded)
-
+	case "engljeff":
+		LoomisMetal(fx, sigpath)
+	case "englkeith":
+		MerrowFire(fx, sigpath)
+	case "evhkeith":
+		Merrow5153(fx, sigpath)
+	case "rectifierola":
+		OlaWar(fx, sigpath)
+	case "twinola":
+		OlaPeace(fx, sigpath)
+	case "jc120jeff":
+		Loomis120(fx, sigpath)
+	case "live.acousticimgaura", "live.acousticsim":
+		AcousticPack(fx, sigpath, embedded)
 	default:
 		sigpathElement := GetSigpathElement(fx)
 		*sigpath = append(*sigpath, sigpathElement)

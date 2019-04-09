@@ -12,7 +12,7 @@ type Fx2PresetData struct {
 		Slot                  []interface{} `json:"slot"`
 	} `json:"scenes"`
 	SigPath  []SigpathElement `json:"sigPath"`
-	Embedded []EmbeddedData   `json:"embedded"`
+	Embedded []EmbeddedData   `json:"embedded,omitempty"`
 }
 
 // SigpathParam :  parameters
