@@ -14,6 +14,7 @@ func HandleDistortion(fx FxElement, sigpath *[]SigpathElement, embedded *[]Embed
 	var data EmbeddedData
 	data.EmbeddedType = "BiasPedal_Distortion"
 	data.DistortionID = fx.DistortionID
+	data.ID = fx.Uniqueid
 
 	appendEmbeddedData(fx.Distortiondata, data, embedded)
 	*sigpath = append(*sigpath, sigpathElement)
@@ -28,6 +29,7 @@ func HandleDelay(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedDa
 	var data EmbeddedData
 	data.EmbeddedType = "BiasPedal_Delay"
 	data.DelayID = fx.DelayID
+	data.ID = fx.Uniqueid
 
 	appendEmbeddedData(fx.Delaydata, data, embedded)
 	*sigpath = append(*sigpath, sigpathElement)
@@ -42,6 +44,7 @@ func HandleModulation(fx FxElement, sigpath *[]SigpathElement, embedded *[]Embed
 	var data EmbeddedData
 	data.EmbeddedType = "BiasPedal_Modulaton"
 	data.ModID = fx.ModID
+	data.ID = fx.Uniqueid
 
 	appendEmbeddedData(fx.Moddata, data, embedded)
 	*sigpath = append(*sigpath, sigpathElement)
