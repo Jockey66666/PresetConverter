@@ -10,6 +10,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/thedevsaddam/gojsonq"
 )
 
 // PostMigration : post migration
@@ -157,10 +159,13 @@ func createPresetJSON(root string, bankJs BankListJSON) {
 
 		for i, presetFolder := range presetList {
 			// get preset name
+			meta := bankPath + "/" + presetFolder + "/" + "meta.json"
+			res := gojsonq.New().File(meta).From("name").Get()
+
 			p := LivePresetsJSON{
 				DisplayOrder: i,
 				IsFavorite:   false,
-				PresetName:   "",
+				PresetName:   res.(string),
 				PresetUUID:   presetFolder,
 			}
 

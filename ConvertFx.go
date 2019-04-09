@@ -11,7 +11,7 @@ func GetSigpathElement(fx FxElement) (sigpathElement SigpathElement) {
 	sigpathElement.DspID = fx.Descriptor
 	sigpathElement.DspID = strings.Replace(sigpathElement.DspID, "LIVE.", "FX2.", 1)
 	sigpathElement.ID = fx.Uniqueid
-	sigpathElement.Selected, _ = strconv.ParseBool(fx.Selected)
+	sigpathElement.Selected = false
 
 	// copy parameters
 	for _, param := range fx.Parameters.Parameter {

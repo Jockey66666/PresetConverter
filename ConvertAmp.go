@@ -61,11 +61,7 @@ func splitAmpHeadCab(fx FxElement, sigpath *[]SigpathElement, embedded *[]Embedd
 		sigpathElement.AmpID = fx.AmpID
 		sigpathElement.DspID = fx.Descriptor
 		sigpathElement.ID = fx.Uniqueid
-		sigpathElement.Selected, err = strconv.ParseBool(fx.Selected)
-
-		if err != nil {
-			return
-		}
+		sigpathElement.Selected = false
 
 		var ampDataByte []byte
 		ampDataByte, err = json.Marshal(ampData.AmpData)

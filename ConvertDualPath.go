@@ -63,7 +63,7 @@ func convertMixer(splitter FxElement, mixer FxElement, sigpath *[]SigpathElement
 	sigpathElement.Active, _ = strconv.ParseBool(mixer.Active)
 	sigpathElement.DspID = "FX2.Mixer"
 	sigpathElement.Linked, _ = strconv.ParseBool(splitter.Linked)
-	sigpathElement.Selected, _ = strconv.ParseBool(mixer.Selected)
+	sigpathElement.Selected = false
 
 	for _, fxs := range splitter.Fxs {
 		var c MixerChannel

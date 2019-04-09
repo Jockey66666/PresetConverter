@@ -117,7 +117,7 @@ func addCab(fx FxElement, sigpath *[]SigpathElement, cabParam []float64) {
 	sigpathElement.Active, _ = strconv.ParseBool(fx.Active)
 	sigpathElement.DspID = "bias.cab2"
 	sigpathElement.ID = fx.Uniqueid
-	sigpathElement.Selected, _ = strconv.ParseBool(fx.Selected)
+	sigpathElement.Selected = false
 
 	sigpathElement.Param = make([]SigpathParam, len(cabParam))
 
