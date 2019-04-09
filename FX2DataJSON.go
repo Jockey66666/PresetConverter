@@ -11,8 +11,8 @@ type Fx2PresetData struct {
 		LatestEditedSceneSlot int           `json:"latestEditedSceneSlot"`
 		Slot                  []interface{} `json:"slot"`
 	} `json:"scenes"`
-	SigPath  []SigpathElement  `json:"sigPath"`
-	Embedded []EmbeddedAmpData `json:"embedded"`
+	SigPath  []SigpathElement `json:"sigPath"`
+	Embedded []EmbeddedData   `json:"embedded"`
 }
 
 // SigpathParam :  parameters
@@ -82,12 +82,20 @@ type SigpathElement struct {
 	Linked   bool           `json:"linked,omitempty"`
 }
 
-// EmbeddedAmpData : ampdata
-type EmbeddedAmpData struct {
+// EmbeddedData : embedded data
+type EmbeddedData struct {
 	EmbeddedType string      `json:"EmbeddedType"`
-	AmpID        string      `json:"ampId"`
+	AmpID        string      `json:"ampId,omitempty"`
 	ID           string      `json:"id"`
-	AmpData      interface{} `json:"ampData"`
+	AmpData      interface{} `json:"ampData,omitempty"`
 	MetaData     interface{} `json:"metaData"`
 	PanelData    interface{} `json:"panelData"`
+
+	// for bias pedal
+	DistortionData interface{} `json:"distortionData,omitempty"`
+	DistortionID   string      `json:"distortionId,omitempty"`
+	DelayData      interface{} `json:"delayData,omitempty"`
+	DelayID        string      `json:"delayId,omitempty"`
+	ModData        interface{} `json:"modData,omitempty"`
+	ModID          string      `json:"modId,omitempty"`
 }

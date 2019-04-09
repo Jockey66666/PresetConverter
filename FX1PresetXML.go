@@ -45,6 +45,11 @@ type FxElement struct {
 	} `xml:"Parameters"`
 	Ampdata string `xml:"Ampdata"`
 
+	// for bias pedal
+	Distortiondata string `xml:"Distortiondata"`
+	Delaydata      string `xml:"Delaydata"`
+	Moddata        string `xml:"Moddata"`
+
 	// for Splitter
 	Linked string `xml:"linked,attr"`
 	Fxs    []struct {

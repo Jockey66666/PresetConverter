@@ -3,7 +3,7 @@ package main
 import "strconv"
 
 // ConvertDualPath : convert dual path
-func ConvertDualPath(dualPath map[string]FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpData) {
+func ConvertDualPath(dualPath map[string]FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData) {
 	splitter := dualPath["splitter"]
 	convertSplitter(splitter, sigpath, embedded)
 
@@ -11,7 +11,7 @@ func ConvertDualPath(dualPath map[string]FxElement, sigpath *[]SigpathElement, e
 	convertMixer(splitter, mixer, sigpath)
 }
 
-func convertSplitter(splitter FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpData) {
+func convertSplitter(splitter FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData) {
 	sigpathElement := GetSigpathElement(splitter)
 	sigpathElement.DspID = "FX2.Splitter"
 

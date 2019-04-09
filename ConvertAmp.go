@@ -10,7 +10,7 @@ import (
 )
 
 // HandleAmp : Amp converter
-func HandleAmp(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpData) {
+func HandleAmp(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData) {
 
 	sigpathElement := GetSigpathElement(fx)
 	sigpathElement.AmpType = "AmpHead"
@@ -24,11 +24,11 @@ func HandleAmp(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpD
 	}
 }
 
-func splitAmpHeadCab(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpData) (err error) {
+func splitAmpHeadCab(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData) (err error) {
 
 	if len(fx.Ampdata) > 0 {
 		//embedded data
-		var ampData EmbeddedAmpData
+		var ampData EmbeddedData
 		ampData.ID = fx.Uniqueid
 		ampData.AmpID = fx.AmpID
 		ampData.EmbeddedType = fx.Descriptor

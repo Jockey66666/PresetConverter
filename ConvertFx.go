@@ -25,12 +25,19 @@ func GetSigpathElement(fx FxElement) (sigpathElement SigpathElement) {
 }
 
 // ConvertFx : for <Fx>
-func ConvertFx(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedAmpData) {
+func ConvertFx(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData) {
 
 	fxID := strings.ToLower(fx.Descriptor)
 	switch fxID {
 	case "biasamp", "biasamp2":
 		HandleAmp(fx, sigpath, embedded)
+	case "biasdistortion":
+		HandleDistortion(fx, sigpath, embedded)
+	case "biasdelay":
+		HandleDelay(fx, sigpath, embedded)
+	case "biasmodulation":
+		HandleModulation(fx, sigpath, embedded)
+
 	default:
 		sigpathElement := GetSigpathElement(fx)
 		*sigpath = append(*sigpath, sigpathElement)
