@@ -226,28 +226,40 @@ func getReportResult(presetSlice []PresetSliceStruct, reportJs *ReportJSON, bank
 	}
 
 	// add success presets
+	reportJs.Success = make([]BanksReport, len(m["success"]))
+
+	var count int
+	count = 0
 	for fx1BankUUID, presets := range m["success"] {
 		var bankRP BanksReport
 		bankRP.BankID = fx1BankUUID
 		bankRP.BankName = bankTable[fx1BankUUID]
-		for _, p := range presets {
-			bankRP.Presets = append(bankRP.Presets, p)
+
+		bankRP.Presets = make([]string, len(presets))
+		for i, p := range presets {
+			bankRP.Presets[i] = p
 		}
 
-		reportJs.Success = append(reportJs.Success, bankRP)
-
+		reportJs.Success[count] = bankRP
+		count++
 	}
 
 	// add failed presets
+	reportJs.Failed = make([]BanksReport, len(m["failed"]))
+
+	count = 0
 	for fx1BankUUID, presets := range m["failed"] {
 		var bankRP BanksReport
 		bankRP.BankID = fx1BankUUID
 		bankRP.BankName = bankTable[fx1BankUUID]
-		for _, p := range presets {
-			bankRP.Presets = append(bankRP.Presets, p)
+
+		bankRP.Presets = make([]string, len(presets))
+		for i, p := range presets {
+			bankRP.Presets[i] = p
 		}
 
-		reportJs.Failed = append(reportJs.Failed, bankRP)
+		reportJs.Failed[count] = bankRP
+		count++
 	}
 
 }
