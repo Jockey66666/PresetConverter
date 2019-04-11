@@ -20,7 +20,7 @@ var licenseTable = map[string]int{
 	"ELite": 4,
 }
 
-var extensionPack = map[string]int{
+var expansionPack = map[string]int{
 	"MTS9EAD6DBA54EDAADA20D97EF2FAAA1": metalPack,
 	"ACSFD9C18B744E7080AFAABE7049FB4B": acousticPack,
 	"BAS17A9D0E2841E0915D0E4FD63C437F": bassPack,
@@ -244,7 +244,7 @@ func initAmp2Map(filePath string, fx2Licenses map[string]int, amp2Licenses map[s
 func initPack(fx FxStruct, packLicenses map[string]int) {
 	if len(fx.PackID) > 0 || len(fx.PackID2) > 0 {
 		merged := append([]string{}, append(fx.PackID, fx.PackID2...)...)
-		value, found := extensionPack[merged[0]]
+		value, found := expansionPack[merged[0]]
 		if found {
 			packLicenses[fx.DspID] = value
 		}
