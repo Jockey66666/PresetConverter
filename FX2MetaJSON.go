@@ -20,4 +20,5 @@ type LicenseTierReq struct {
 	ExpansionBass     bool  `json:"expansion_bass"`
 	ExpansionMetal    bool  `json:"expansion_metal"`
 	ModernVintage     bool  `json:"modern_vintage"`
+	CelestionClassic  bool  `json:"celestion_classic"`
 }

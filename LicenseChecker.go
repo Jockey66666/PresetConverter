@@ -73,15 +73,13 @@ func (checker LicenseChecker) GetLicenseMeta(presetPath string) (licenseTierReq 
 		result := gjson.Get(string(js), `sigPath.blocks.items.#[id=="bias.cab2celestion"]#.params.0.value`)
 		if result.IsArray() && len(result.Array()) > 0 {
 			value := result.Array()[0]
-			vintageType := int(value.Num * 1000)
-			switch vintageType {
+			celestionType := int(value.Num * 1000)
+			switch celestionType {
 			case 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 28, 29, 39:
 				licenseTierReq.ModernVintage = true
+			case 1, 2, 3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 25, 26, 27:
+				licenseTierReq.CelestionClassic = true
 			}
-		}
-
-		if licenseTierReq.ModernVintage == true {
-			break
 		}
 	}
 
