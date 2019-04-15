@@ -26,7 +26,7 @@ func copyThumbnail(path string) {
 }
 
 // MigrationCore : mainly convert function
-func MigrationCore(checker LicenseChecker, author string, presetSlice []PresetSliceStruct) int {
+func MigrationCore(checker LicenseChecker, inputBanks InputBankListJSON, presetSlice []PresetSliceStruct) int {
 	count := 0
 	for i, preset := range presetSlice {
 
@@ -50,7 +50,7 @@ func MigrationCore(checker LicenseChecker, author string, presetSlice []PresetSl
 
 		// step 2. create preset folder
 		uuid := uuid.Must(uuid.NewRandom())
-		outputPath := "temp/" + preset.BankUUID + "/" + strings.ToUpper(uuid.String())
+		outputPath := inputBanks.Temp + "/" + preset.BankUUID + "/" + strings.ToUpper(uuid.String())
 		CreateDirIfNotExist(outputPath)
 
 		// step 3. create data.json
@@ -70,7 +70,7 @@ func MigrationCore(checker LicenseChecker, author string, presetSlice []PresetSl
 		}
 
 		// step 4. create meta.json
-		metaJSON := CreateMeta(outputPath, preset.PresetName, author, checker)
+		metaJSON := CreateMeta(outputPath, preset.PresetName, inputBanks.Author, checker)
 		SaveFile(outputPath+"/meta.json", metaJSON)
 		// step 5. copy thumbnail.png
 		copyThumbnail(outputPath)

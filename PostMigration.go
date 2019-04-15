@@ -15,18 +15,18 @@ import (
 )
 
 // PostMigration : post migration
-func PostMigration(fx2PresetPath string, bankTable map[string]string, presetSlice []PresetSliceStruct) {
+func PostMigration(inputBanks InputBankListJSON, bankTable map[string]string, presetSlice []PresetSliceStruct) {
 	// step 1. read fx2 bank.json
-	bankJs := readFX2BankJSON(fx2PresetPath)
+	bankJs := readFX2BankJSON(inputBanks.Dst)
 
 	// step 2. create bank.json
-	createBankJSON("temp", bankTable, &bankJs)
+	createBankJSON(inputBanks.Temp, bankTable, &bankJs)
 
 	// step 3. create preset.json
-	createPresetJSON("temp", bankJs)
+	createPresetJSON(inputBanks.Temp, bankJs)
 
 	// step 4. create report
-	createReport("report", presetSlice, bankTable)
+	createReport(inputBanks.Report, presetSlice, bankTable)
 }
 
 func readFX2BankJSON(root string) BankListJSON {

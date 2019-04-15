@@ -14,18 +14,20 @@ import (
 // PreMigration : prepare to migrate
 func PreMigration() (InputBankListJSON, []PresetSliceStruct, map[string]string) {
 
-	// step 1. create report folder and delete temp folder
-	CreateDirIfNotExist("report")
-	CreateDirIfNotExist("temp")
-	RemoveContents("temp")
+	// step 1. read input_bank_list.json
+	var gen PathGenerator
+	data, _ := OpenFile(gen.InputSettingPath())
 
-	// step 2. read input_bank_list.json
-	data, _ := OpenFile("input_bank_list.json")
 	var inputBanks InputBankListJSON
 	err := json.Unmarshal(data, &inputBanks)
 	if err != nil {
 		os.Exit(ErrorOpenBankListFailed)
 	}
+
+	// step 1. create report folder and delete temp folder
+	CreateDirIfNotExist(inputBanks.Report)
+	CreateDirIfNotExist(inputBanks.Temp)
+	RemoveContents(inputBanks.Temp)
 
 	var presetSlice []PresetSliceStruct
 	var bankTable = make(map[string]string)
@@ -41,7 +43,7 @@ func PreMigration() (InputBankListJSON, []PresetSliceStruct, map[string]string) 
 
 		// create bank folder
 		uuid := strings.ToUpper(uuid.Must(uuid.NewRandom()).String())
-		CreateDirIfNotExist("temp/" + uuid)
+		CreateDirIfNotExist(inputBanks.Temp + "/" + uuid)
 		bankTable[uuid] = bank.Name
 		bankTable[bank.ID] = bank.Name
 

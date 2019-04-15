@@ -1,19 +1,30 @@
 {
-    "author": "tonecloud user name",
-    "src": "c:/users/vincent/Documents/BIAS_FX/Presets",
-    "dst": "c:/users/vincent/Documents/PositiveGrid/BIAS_FX2/GlobalPresets",
-    "banks" : [        
-        {
-            "id" : "factory",
-            "name" : "Factory Rock"            
-        },
-        {
-            "id" : "factory1",
-            "name" : "Factory Low Gain"            
-        },
-        {
-            "id" : "factory2",
-            "name" : "Artists"            
-        }
-    ]
-}
+    "author" : "",
+    "banks" : [
+       {
+          "id" : "factory",
+          "name" : "Factory Rock"
+       },
+       {
+          "id" : "factory1",
+          "name" : "Factory Low Gain"
+       },
+       {
+          "id" : "factory2",
+          "name" : "Artists"
+       },
+       {
+          "id" : "B606D598-14C7-EB98-AC80-77A1F114935F",
+          "name" : "Bank 1"
+       },
+       {
+          "id" : "6683CD2A-39D9-EEC0-6510-369203A24FFE",
+          "name" : "Bank 2"
+       }
+    ],
+    "dst" : "C:\\Users\\Vincent\\Documents\\PositiveGrid\\BIAS_FX2\\GlobalPresets",
+    "report" : "C:\\Users\\Vincent\\Documents\\PositiveGrid\\BIAS_FX2\\MigrationTool\\report",
+    "src" : "C:\\Users\\Vincent\\Documents\\BIAS_FX\\Presets",
+    "temp" : "C:\\Users\\Vincent\\Documents\\PositiveGrid\\BIAS_FX2\\MigrationTool\\temp"
+ }
+ 

@@ -55,7 +55,7 @@ func main() {
 		from := i * num / cpu
 		to := (i + 1) * num / cpu
 		go func() {
-			countChannel <- MigrationCore(checker, inputBanks.Author, presetSlice[from:to])
+			countChannel <- MigrationCore(checker, inputBanks, presetSlice[from:to])
 		}()
 	}
 
@@ -67,5 +67,5 @@ func main() {
 	fmt.Println(total, "presets migrated")
 
 	// post migration
-	PostMigration(inputBanks.Dst, bankTable, presetSlice)
+	PostMigration(inputBanks, bankTable, presetSlice)
 }
