@@ -29,3 +29,8 @@ func (gen *PathGenerator) DocPath() string {
 func (gen *PathGenerator) InputSettingPath() string {
 	return gen.DocPath() + "/input_bank_list.json"
 }
+
+// LocalSettingPath : local input setting path
+func (gen *PathGenerator) LocalSettingPath() string {
+	return "input_bank_list.json"
+}

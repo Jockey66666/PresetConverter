@@ -25,11 +25,12 @@ func GetSigpathElement(fx FxElement) (sigpathElement SigpathElement) {
 }
 
 // ConvertFx : for <Fx>
-func ConvertFx(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData) {
+func ConvertFx(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData, ampCount *int) {
 
 	fxID := strings.ToLower(fx.Descriptor)
 	switch fxID {
 	case "biasamp", "biasamp2":
+		(*ampCount)++
 		HandleAmp(fx, sigpath, embedded)
 	case "biasdistortion":
 		HandleDistortion(fx, sigpath, embedded)
@@ -38,18 +39,25 @@ func ConvertFx(fx FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData
 	case "biasmodulation":
 		HandleModulation(fx, sigpath, embedded)
 	case "engljeff":
+		(*ampCount)++
 		LoomisMetal(fx, sigpath)
 	case "englkeith":
+		(*ampCount)++
 		MerrowFire(fx, sigpath)
 	case "evhkeith":
+		(*ampCount)++
 		Merrow5153(fx, sigpath)
 	case "rectifierola":
+		(*ampCount)++
 		OlaWar(fx, sigpath)
 	case "twinola":
+		(*ampCount)++
 		OlaPeace(fx, sigpath)
 	case "jc120jeff":
+		(*ampCount)++
 		Loomis120(fx, sigpath)
 	case "live.acousticimgaura", "live.acousticsim":
+		(*ampCount)++
 		AcousticPack(fx, sigpath, embedded)
 	default:
 		sigpathElement := GetSigpathElement(fx)

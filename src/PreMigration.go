@@ -16,10 +16,17 @@ func PreMigration() (InputBankListJSON, []PresetSliceStruct, map[string]string) 
 
 	// step 1. read input_bank_list.json
 	var gen PathGenerator
-	data, _ := OpenFile(gen.InputSettingPath())
+	var err error
+	var data []byte
+	data, err = OpenFile(gen.InputSettingPath())
+
+	if err != nil {
+		data, err = OpenFile(gen.LocalSettingPath())
+	}
 
 	var inputBanks InputBankListJSON
-	err := json.Unmarshal(data, &inputBanks)
+	err = json.Unmarshal(data, &inputBanks)
+
 	if err != nil {
 		os.Exit(ErrorOpenBankListFailed)
 	}

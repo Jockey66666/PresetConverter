@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"strings"
 )
 
@@ -28,14 +28,14 @@ func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) (js []byte, err er
 	*/
 
 	dualPath := make(map[string]FxElement)
-
+	ampCount := 0
 	for _, fx := range fx1Preset.Fxs.FxElements {
 
 		elementName := strings.ToLower(fx.XMLName.Local)
 
 		switch elementName {
 		case "fx":
-			ConvertFx(fx, &fx2Preset.SigPath, &fx2Preset.Embedded)
+			ConvertFx(fx, &fx2Preset.SigPath, &fx2Preset.Embedded, &ampCount)
 		case "live.splitter", "splitter":
 			dualPath["splitter"] = fx
 		case "live.mixer", "mixer":
@@ -43,15 +43,21 @@ func ConvertToFx2Data(fx1Preset FX1Preset, presetName string) (js []byte, err er
 			// check splitter is exist
 			_, exists := dualPath["splitter"]
 			if !exists {
-				fmt.Println(presetName, "miss splitter?")
+				err = errors.New("miss splitter")
 				return
 			}
 
 			dualPath["mixer"] = fx
-			ConvertDualPath(dualPath, &fx2Preset.SigPath, &fx2Preset.Embedded)
+			ConvertDualPath(dualPath, &fx2Preset.SigPath, &fx2Preset.Embedded, &ampCount)
 		default:
-			fmt.Println("unknown fx element.")
+			err = errors.New("unknown fx element")
+			return
 		}
+	}
+
+	if ampCount == 0 {
+		err = errors.New("there is no amp")
+		return
 	}
 
 	js, _ = json.MarshalIndent(fx2Preset, "", "    ")

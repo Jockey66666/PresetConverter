@@ -3,15 +3,15 @@ package main
 import "strconv"
 
 // ConvertDualPath : convert dual path
-func ConvertDualPath(dualPath map[string]FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData) {
+func ConvertDualPath(dualPath map[string]FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData, ampCount *int) {
 	splitter := dualPath["splitter"]
-	convertSplitter(splitter, sigpath, embedded)
+	convertSplitter(splitter, sigpath, embedded, ampCount)
 
 	mixer := dualPath["mixer"]
 	convertMixer(splitter, mixer, sigpath)
 }
 
-func convertSplitter(splitter FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData) {
+func convertSplitter(splitter FxElement, sigpath *[]SigpathElement, embedded *[]EmbeddedData, ampCount *int) {
 	sigpathElement := GetSigpathElement(splitter)
 	sigpathElement.DspID = "FX2.Splitter"
 
@@ -23,7 +23,7 @@ func convertSplitter(splitter FxElement, sigpath *[]SigpathElement, embedded *[]
 
 		for _, fx := range fxs.Fx {
 			var tmp []SigpathElement
-			ConvertFx(fx, &tmp, embedded)
+			ConvertFx(fx, &tmp, embedded, ampCount)
 			// copy to dualPath
 			copyToDualSigpath(tmp, &innerSigpath)
 		}
