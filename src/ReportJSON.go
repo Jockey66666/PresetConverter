@@ -11,5 +11,6 @@ type ReportJSON struct {
 type BanksReport struct {
 	BankID   string   `json:"bank_id"`
 	BankName string   `json:"bank_name"`
+	Category string   `json:"category"`
 	Presets  []string `json:"presets"`
 }

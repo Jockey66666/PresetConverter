@@ -234,6 +234,7 @@ func getReportResult(presetSlice []PresetSliceStruct, reportJs *ReportJSON, bank
 		var bankRP BanksReport
 		bankRP.BankID = fx1BankUUID
 		bankRP.BankName = bankTable[fx1BankUUID]
+		bankRP.Category = "BiasFX"
 
 		bankRP.Presets = make([]string, len(presets))
 		for i, p := range presets {
@@ -252,6 +253,7 @@ func getReportResult(presetSlice []PresetSliceStruct, reportJs *ReportJSON, bank
 		var bankRP BanksReport
 		bankRP.BankID = fx1BankUUID
 		bankRP.BankName = bankTable[fx1BankUUID]
+		bankRP.Category = "BiasFX"
 
 		bankRP.Presets = make([]string, len(presets))
 		for i, p := range presets {
