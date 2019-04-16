@@ -15,6 +15,18 @@ $ go get github.com/thedevsaddam/gojsonq
 $ go get -u github.com/tidwall/gjson
 $ go get github.com/mitchellh/go-ps
 ```
+
+## Build
+It's very easy to build different platform binary by golang
+### Windows
+``` bash
+$ ./build/build_windows.bat
+```
+### Mac
+``` bash
+$ ./build/build_mac
+```
+
 ## Useful Online Tool
 
 * [JSON to GO](https://mholt.github.io/json-to-go/)
