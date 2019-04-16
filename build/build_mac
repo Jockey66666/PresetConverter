@@ -1,5 +1,5 @@
-CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -o ./Windows/x86/PresetConverterWin.exe ../src/
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./Windows/x64/PresetConverterWin.exe ../src/
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ./Mac/PresetConverterMac ../src/
-cp ../src/thumbnail.png ./Windows/
-cp ../src/thumbnail.png ./Mac/
+CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -o ./bin/Windows/x86/PresetConverterWin.exe ./src/
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ./bin/Windows/x64/PresetConverterWin.exe ./src/
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ./bin/Mac/PresetConverterMac ./src/
+cp ./src/thumbnail.png ./bin/Windows/
+cp ./src/thumbnail.png ./bin/Mac/
