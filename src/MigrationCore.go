@@ -37,6 +37,7 @@ func MigrationCore(checker LicenseChecker, inputBanks InputBankListJSON, presetS
 
 		if err != nil {
 			fmt.Printf("error: %v", err)
+			presetSlice[i].MigrateResult = -1 // failed
 			continue
 		}
 
@@ -45,6 +46,7 @@ func MigrationCore(checker LicenseChecker, inputBanks InputBankListJSON, presetS
 
 		if err != nil {
 			fmt.Printf("error: %v", err)
+			presetSlice[i].MigrateResult = -1 // failed
 			continue
 		}
 
