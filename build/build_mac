@@ -1,0 +1,3 @@
+CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -o PresetConverterWin32.exe ../
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o PresetConverterWin64.exe ../
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o PresetConverterMac ../
