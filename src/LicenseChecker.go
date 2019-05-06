@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"math"
 
 	"github.com/tidwall/gjson"
 )
@@ -73,7 +74,7 @@ func (checker LicenseChecker) GetLicenseMeta(presetPath string) (licenseTierReq 
 		result := gjson.Get(string(js), `sigPath.blocks.items.#[id=="bias.cab2celestion"]#.params.0.value`)
 		if result.IsArray() && len(result.Array()) > 0 {
 			value := result.Array()[0]
-			celestionType := int(value.Num * 1000)
+			celestionType := int(math.Round(value.Num * 1000))
 			switch celestionType {
 			case 4, 5, 6, 7, 8, 9, 19, 20, 21, 22, 23, 24, 28, 29, 39:
 				licenseTierReq.ModernVintage = true
